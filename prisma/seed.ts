@@ -38,10 +38,10 @@ async function main() {
 
   // SUBJECT
   const subjectData = [
-    { name: "Mathematics" },
-    { name: "Science" },
-    { name: "English" },
-    { name: "History" },
+    { name: "FilmMaking" },
+    { name: "GenAiShow" },
+    { name: "GenAiMaster" },
+    { name: "Podcast" },
     { name: "Geography" },
     { name: "Physics" },
     { name: "Chemistry" },
@@ -74,7 +74,7 @@ async function main() {
     });
   }
 
-  // LESSON
+  // LESSON (Updated to include meetingLink)
   for (let i = 1; i <= 30; i++) {
     await prisma.lesson.create({
       data: {
@@ -89,6 +89,7 @@ async function main() {
         subjectId: (i % 10) + 1, 
         classId: (i % 6) + 1, 
         teacherId: `teacher${(i % 15) + 1}`, 
+        meetingLink: `https://zoom.us/j/${Math.floor(Math.random() * 100000000)}`, // Adding random meeting link
       },
     });
   }
