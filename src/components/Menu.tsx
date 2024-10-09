@@ -44,7 +44,7 @@ const menuItems = [
       },
       {
         icon: "/lesson.png",
-        label: "Lessons",
+        label: "Batches",
         href: "/list/lessons",
         visible: ["admin", "teacher"],
       },
