@@ -8,15 +8,11 @@ import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import {
   studentSchema,
   StudentSchema,
-  teacherSchema,
-  TeacherSchema,
 } from "@/lib/formValidationSchemas";
 import { useFormState } from "react-dom";
 import {
   createStudent,
-  createTeacher,
   updateStudent,
-  updateTeacher,
 } from "@/lib/actions";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
@@ -52,7 +48,7 @@ const StudentForm = ({
   );
 
   const onSubmit = handleSubmit((data) => {
-    console.log("hello");
+    console.log("Submitting Data:");
     console.log(data);
     formAction({ ...data, img: img?.secure_url });
   });
@@ -105,23 +101,21 @@ const StudentForm = ({
         Personal Information
       </span>
       <CldUploadWidget
-        uploadPreset="school"
+        uploadPreset="igebra"
         onSuccess={(result, { widget }) => {
           setImg(result.info);
           widget.close();
         }}
       >
-        {({ open }) => {
-          return (
-            <div
-              className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
-              onClick={() => open()}
-            >
-              <Image src="/upload.png" alt="" width={28} height={28} />
-              <span>Upload a photo</span>
-            </div>
-          );
-        }}
+        {({ open }) => (
+          <div
+            className="text-xs text-gray-500 flex items-center gap-2 cursor-pointer"
+            onClick={() => open()}
+          >
+            <Image src="/upload.png" alt="" width={28} height={28} />
+            <span>Upload a photo</span>
+          </div>
+        )}
       </CldUploadWidget>
       <div className="flex justify-between flex-wrap gap-4">
         <InputField
@@ -162,7 +156,7 @@ const StudentForm = ({
         <InputField
           label="Birthday"
           name="birthday"
-          defaultValue={data?.birthday.toISOString().split("T")[0]}
+          defaultValue={data?.birthday?.toISOString().split("T")[0]}
           register={register}
           error={errors.birthday}
           type="date"
