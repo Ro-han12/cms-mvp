@@ -96,7 +96,6 @@ CREATE TABLE "Subject" (
 CREATE TABLE "Lesson" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
-    "day" "Day" NOT NULL,
     "startTime" TIMESTAMP(3) NOT NULL,
     "endTime" TIMESTAMP(3) NOT NULL,
     "meetingLink" TEXT,
