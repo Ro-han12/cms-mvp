@@ -6,7 +6,8 @@ import {
   deleteStudent,
   deleteSubject,
   deleteTeacher,
-  deleteParent, // Import or define your deleteParent function here
+  deleteParent, // Import your deleteParent function
+  deleteLesson, // Import your deleteLesson function here
 } from "@/lib/actions";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -23,7 +24,7 @@ const deleteActionMap = {
   student: deleteStudent,
   exam: deleteExam,
   parent: deleteParent, // Update to use deleteParent function
-  lesson: deleteSubject,
+  lesson: deleteLesson, // Use deleteLesson for lesson deletion
   assignment: deleteSubject,
   result: deleteSubject,
   attendance: deleteSubject,
@@ -47,7 +48,10 @@ const ClassForm = dynamic(() => import("./forms/ClassForm"), {
 const ExamForm = dynamic(() => import("./forms/ExamForm"), {
   loading: () => <h1>Loading...</h1>,
 });
-const ParentForm = dynamic(() => import("./forms/ParentForm"), { // Add ParentForm
+const ParentForm = dynamic(() => import("./forms/ParentForm"), {
+  loading: () => <h1>Loading...</h1>,
+});
+const LessonForm = dynamic(() => import("./forms/LessonForm"), { // Add LessonForm
   loading: () => <h1>Loading...</h1>,
 });
 
@@ -100,8 +104,16 @@ const forms: {
       relatedData={relatedData}
     />
   ),
-  parent: (setOpen, type, data, relatedData) => ( // Add parent form
+  parent: (setOpen, type, data, relatedData) => (
     <ParentForm
+      type={type}
+      data={data}
+      setOpen={setOpen}
+      relatedData={relatedData}
+    />
+  ),
+  lesson: (setOpen, type, data, relatedData) => ( // Add lesson form
+    <LessonForm
       type={type}
       data={data}
       setOpen={setOpen}

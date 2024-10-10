@@ -8,6 +8,7 @@ import {
   SubjectSchema,
   TeacherSchema,
   ParentSchema,
+  LessonSchema,
 } from "./formValidationSchemas";
 import prisma from "./prisma";
 import { clerkClient } from "@clerk/nextjs/server";
@@ -571,3 +572,80 @@ export const deleteParent = async (
 };
 
 
+export const createLesson = async (
+  currentState: CurrentState,
+  data: LessonSchema
+) => {
+  try {
+    await prisma.lesson.create({
+      data: {
+        name: data.name,
+        meetingLink: data.meetingLink,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        teacherId: data.teacherId,
+        subjectId: data.subjectId,
+        classId: data.classId,
+        // Update other fields as necessary
+      },
+    });
+
+    // revalidatePath("/list/lessons");
+    return { success: true, error: false };
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: true };
+  }
+};
+
+export const updateLesson = async (
+  currentState: CurrentState,
+  data: LessonSchema
+) => {
+  if (!data.id) {
+    return { success: false, error: true };
+  }
+  try {
+    await prisma.lesson.update({
+      where: {
+        id: data.id,
+      },
+      data: {
+        name: data.name,
+        meetingLink: data.meetingLink,
+        startTime: data.startTime,
+        endTime: data.endTime,
+        teacherId: data.teacherId,
+        subjectId: data.subjectId,
+        classId: data.classId,
+        // Update other fields as necessary
+      },
+    });
+
+    // revalidatePath("/list/lessons");
+    return { success: true, error: false };
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: true };
+  }
+};
+
+export const deleteLesson = async (
+  currentState: CurrentState,
+  data: FormData
+) => {
+  const id = data.get("id") as string;
+  try {
+    await prisma.lesson.delete({
+      where: {
+        id: parseInt(id),
+      },
+    });
+
+    // revalidatePath("/list/lessons");
+    return { success: true, error: false };
+  } catch (err) {
+    console.log(err);
+    return { success: false, error: true };
+  }
+};

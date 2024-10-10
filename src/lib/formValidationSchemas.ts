@@ -113,3 +113,24 @@ export const parentSchema = z.object({
 });
 
 export type ParentSchema = z.infer<typeof parentSchema>;
+
+
+export const lessonSchema = z.object({
+  id: z.coerce.number().optional(), // Optional id, will be auto-generated
+  name: z.string().min(1, { message: "Lesson name is required!" }),
+  startTime: z.coerce.date({ message: "Start time is required!" }), // Ensure it's a valid date
+  endTime: z.coerce.date({ message: "End time is required!" }), // Ensure it's a valid date
+  meetingLink: z.string().optional(), // Optional meeting link
+  subjectId: z.coerce.number().min(1, { message: "Subject ID is required!" }), // Subject reference
+  classId: z.coerce.number().min(1, { message: "Class ID is required!" }), // Class reference
+  teacherId: z.string().min(1, { message: "Teacher ID is required!" }), // Teacher reference
+  exams: z.array(z.object({ id: z.coerce.number().optional() })).optional(), // Optional array of exam references
+  assignments: z.array(z.object({ id: z.coerce.number().optional() })).optional(), // Optional array of assignment references
+  attendances: z.array(z.object({ id: z.coerce.number().optional() })).optional(), // Optional array of attendance references
+});
+
+// Type inference for the lesson schema
+export type LessonSchema = z.infer<typeof lessonSchema>;
+
+
+

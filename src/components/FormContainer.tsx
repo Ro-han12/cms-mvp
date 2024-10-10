@@ -6,7 +6,7 @@ export type FormContainerProps = {
   table:
     | "teacher"
     | "student"
-    | "parent" // Added parent type
+    | "parent"
     | "subject"
     | "class"
     | "lesson"
@@ -69,7 +69,20 @@ const FormContainer = async ({ table, type, data, id }: FormContainerProps) => {
         });
         relatedData = { lessons: examLessons };
         break;
-      case "parent": // Handle the parent case
+      case "lesson":
+        // Fetch data related to creating or updating a lesson
+        const lessonSubjects = await prisma.subject.findMany({
+          select: { id: true, name: true },
+        });
+        const lessonClasses = await prisma.class.findMany({
+          select: { id: true, name: true },
+        });
+        const lessonTeachers = await prisma.teacher.findMany({
+          select: { id: true, name: true, surname: true },
+        });
+        relatedData = { subjects: lessonSubjects, classes: lessonClasses, teachers: lessonTeachers };
+        break;
+      case "parent":
         const parentStudents = await prisma.student.findMany({
           select: { id: true, name: true, surname: true },
         });
